@@ -2,8 +2,8 @@
 // @name           iitc: highlight portals with LVL > X
 // @version        1.1.1
 // @namespace      https://github.com/breunigs/ingress-intel-total-conversion
-// @updateURL      http://jenseitsderfenster.de/hochgeladenesZeugs/iitc_highlight_portals_with_LVL_X.user.js
-// @downloadURL    http://jenseitsderfenster.de/hochgeladenesZeugs/iitc_highlight_portals_with_LVL_X.user.js
+// @updateURL      https://github.com/Faldrian/iitc-highlight-portal/raw/master/src/iitc_highlight_portals_with_LVL_X.user.js
+// @downloadURL    https://github.com/Faldrian/iitc-highlight-portal/raw/master/src/iitc_highlight_portals_with_LVL_X.user.js
 // @description    Highlights Portals that are greater than a certain level.
 // @include        https://www.ingress.com/intel*
 // ==/UserScript==
@@ -19,7 +19,7 @@ if(typeof window.plugin !== 'function') window.plugin = function() {};
 window.plugin.highlightPortal = function() {};
 
 window.plugin.highlightPortal.warnIcon = L.icon({
-    iconUrl: 'http://jenseitsderfenster.de/hochgeladenesZeugs/warning_marker.png',
+    iconUrl: 'https://github.com/Faldrian/iitc-highlight-portal/raw/master/src/warning_marker.png',
     shadowUrl: null,
 
     iconSize:     [30, 30], // size of the icon

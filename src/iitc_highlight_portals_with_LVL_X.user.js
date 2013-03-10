@@ -14,12 +14,15 @@ if(typeof window.plugin !== 'function') window.plugin = function() {};
 
 
 // PLUGIN START ////////////////////////////////////////////////////////
+window.HIGHLIGHT_PORTAL_LEVEL = 6;
+window.HIGHLIGHT_PORTAL_SHOW_RESISTANCE = true;
+window.HIGHLIGHT_PORTAL_SHOW_ENLIGHTENED = true;
 
 // use own namespace for plugin
 window.plugin.highlightPortal = function() {};
 
 window.plugin.highlightPortal.warnIcon = L.icon({
-    iconUrl: 'https://github.com/Faldrian/iitc-highlight-portal/raw/master/src/warning_marker.png',
+    iconUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACTwAAAk8B95E4kAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJPSURBVEiJvdY9aFNRFAfw/71JikJMXiMJbrHgUgrPgpsJ3czQtQSFiBjrxyK10A46dLEtWMR+TRIFdRCE0E7OotLiIhozWggVh2DSpEkqSWr77nEoKXnNe8lLcsmBs517fu9yLvc+RpW/N1DeG4XEEACg+H5wzp8AIKMaO8p7o3i7cBVbCTmqGgS7Np1nnD80Q49gANhKAN8/SkFpbCLNnO7LALablfLutTp0bj3N+r0tUXlwm6gcuAMUqM240/APghbel6zM9GR0t+PfP4FvHyAKmfvtLu0OFhrYTNjFkpt3RCHzrHewHr/dDi7nVOvxxd7BenzcCi4PbsCzS72DdfjGLVHILvcO1uNRM9wc9g8C3CYFRynXgBvDahD0/EuJZuMlGTglPkdRyq00h2t3r9N9kdTAC4n4zXpcD5+48LnimyY18FIyvqqHTV4ZrvimpOGvH7sI7J44PJy3H6NjE6ZPG1d8U0INMMzGx9lM2AWhWQcHhoBQpEKhSBW2vhRznokxbl9jWi79jvWdvsKc7ktGqO6jC5lFltxsjSteIPygSqHrZdgdKeb2xOA4tQYgf1yjadojIjpPRLCS2m5mSXxaL9KIjSgI43wzV9H2q0+JqN+sDyMihiZ/g8Y7zy6z5EbUbOcU386zc/4LAHbNevB2UQDgineS1OArwwM3MATYHalmaA3uKLjinWTDI414KFJhbk+sZQOrszXN4s5K/czFn195IvK0Wtc9XI9Hh0nspL9aWSMHPsJXRTG3T9q/u72FiaAdHMwT0Vkrtf8Bs1LCEYmcvWwAAAAASUVORK5CYII',
     shadowUrl: null,
 
     iconSize:     [30, 30], // size of the icon
@@ -33,7 +36,9 @@ window.plugin.highlightPortal.portalAdded = function(data) {
   var d = data.portal.options;
   var layer = plugin.highlightPortal.highlightLayer;  
   
-  if(d.level >= 6 && d.team === 1) {
+  var teamMatch = window.HIGHLIGHT_PORTAL_SHOW_RESISTANCE && d.team === 1 ||
+                  window.HIGHLIGHT_PORTAL_SHOW_ENLIGHTENED && d.team === 2;
+  if(teamMatch && d.level >= window.HIGHLIGHT_PORTAL_LEVEL) {
     // Pinken Marker drauftun
   	L.marker(data.portal._latlng,{icon: window.plugin.highlightPortal.warnIcon}).addTo(layer);
   }

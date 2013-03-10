@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           iitc: highlight portals with LVL > X
-// @version        1.1.1
+// @version        1.1.2
 // @namespace      https://github.com/breunigs/ingress-intel-total-conversion
 // @updateURL      https://github.com/Faldrian/iitc-highlight-portal/raw/master/src/iitc_highlight_portals_with_LVL_X.user.js
 // @downloadURL    https://github.com/Faldrian/iitc-highlight-portal/raw/master/src/iitc_highlight_portals_with_LVL_X.user.js

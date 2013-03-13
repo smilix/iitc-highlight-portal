@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           iitc: highlight portals with LVL > X
-// @version        1.1.2
+// @version        1.1.3
 // @namespace      https://github.com/breunigs/ingress-intel-total-conversion
 // @updateURL      https://github.com/Faldrian/iitc-highlight-portal/raw/master/src/iitc_highlight_portals_with_LVL_X.user.js
 // @downloadURL    https://github.com/Faldrian/iitc-highlight-portal/raw/master/src/iitc_highlight_portals_with_LVL_X.user.js
@@ -32,15 +32,33 @@ window.plugin.highlightPortal.warnIcon = L.icon({
     popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
 });
 
+window.plugin.highlightPortal.warnMarkerList = {};
+
 window.plugin.highlightPortal.portalAdded = function(data) {
   var d = data.portal.options;
   var layer = plugin.highlightPortal.highlightLayer;  
   
   var teamMatch = window.HIGHLIGHT_PORTAL_SHOW_RESISTANCE && d.team === 1 ||
                   window.HIGHLIGHT_PORTAL_SHOW_ENLIGHTENED && d.team === 2;
+
   if(teamMatch && d.level >= window.HIGHLIGHT_PORTAL_LEVEL) {
-    // Pinken Marker drauftun
-  	L.marker(data.portal._latlng,{icon: window.plugin.highlightPortal.warnIcon}).addTo(layer);
+  	// Wenn für das Portal bereits ein Marker existiert, dann brauchen wir nichts weiter zu tun.
+  	if(window.plugin.highlightPortal.warnMarkerList[d.guid]) {
+  	  return;
+  	}
+  	
+    // Marker erzeugen, zur Karte hinzufügen und im Portalobjekt speichern.
+  	var warnmarker = L.marker(data.portal._latlng,{icon: window.plugin.highlightPortal.warnIcon});
+  	warnmarker.addTo(layer);
+  	window.plugin.highlightPortal.warnMarkerList[d.guid] = warnmarker;
+  	
+  } else {
+    // Falls ein Marker vorhanden ist, entfernen
+    if(window.plugin.highlightPortal.warnMarkerList[d.guid]) {
+      layer.removeLayer(window.plugin.highlightPortal.warnMarkerList[d.guid]);
+      delete window.plugin.highlightPortal.warnMarkerList[d.guid]; // Aus der Liste entfernen
+  	  return;
+  	}
   }
 }
 

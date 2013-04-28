@@ -1,7 +1,7 @@
 // ==UserScript==
 // @id             iitc-plugin-highlight-portals-with-LVL-X@smilix
 // @name           iitc: highlight portals with LVL > X
-// @version        1.2.0
+// @version        1.2.1
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      https://github.com/smilix/iitc-highlight-portal/raw/master/src/iitc_highlight_portals_with_LVL_X.user.js
 // @downloadURL    https://github.com/smilix/iitc-highlight-portal/raw/master/src/iitc_highlight_portals_with_LVL_X.user.js
@@ -22,7 +22,7 @@ window.HIGHLIGHT_PORTAL_SHOW_ENLIGHTENED = true;
 // use own namespace for plugin
 window.plugin.highlightPortal = function() {};
 
-window.plugin.highlightPortal.warnIcon = L.icon({
+window.plugin.highlightPortal.warnIconR = L.icon({
     iconUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACTwAAAk8B95E4kAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAJPSURBVEiJvdY9aFNRFAfw/71JikJMXiMJbrHgUgrPgpsJ3czQtQSFiBjrxyK10A46dLEtWMR+TRIFdRCE0E7OotLiIhozWggVh2DSpEkqSWr77nEoKXnNe8lLcsmBs517fu9yLvc+RpW/N1DeG4XEEACg+H5wzp8AIKMaO8p7o3i7cBVbCTmqGgS7Np1nnD80Q49gANhKAN8/SkFpbCLNnO7LALablfLutTp0bj3N+r0tUXlwm6gcuAMUqM240/APghbel6zM9GR0t+PfP4FvHyAKmfvtLu0OFhrYTNjFkpt3RCHzrHewHr/dDi7nVOvxxd7BenzcCi4PbsCzS72DdfjGLVHILvcO1uNRM9wc9g8C3CYFRynXgBvDahD0/EuJZuMlGTglPkdRyq00h2t3r9N9kdTAC4n4zXpcD5+48LnimyY18FIyvqqHTV4ZrvimpOGvH7sI7J44PJy3H6NjE6ZPG1d8U0INMMzGx9lM2AWhWQcHhoBQpEKhSBW2vhRznokxbl9jWi79jvWdvsKc7ktGqO6jC5lFltxsjSteIPygSqHrZdgdKeb2xOA4tQYgf1yjadojIjpPRLCS2m5mSXxaL9KIjSgI43wzV9H2q0+JqN+sDyMihiZ/g8Y7zy6z5EbUbOcU386zc/4LAHbNevB2UQDgineS1OArwwM3MATYHalmaA3uKLjinWTDI414KFJhbk+sZQOrszXN4s5K/czFn195IvK0Wtc9XI9Hh0nspL9aWSMHPsJXRTG3T9q/u72FiaAdHMwT0Vkrtf8Bs1LCEYmcvWwAAAAASUVORK5CYII',
     shadowUrl: null,
 
@@ -32,6 +32,19 @@ window.plugin.highlightPortal.warnIcon = L.icon({
     shadowAnchor: [0, 0],  // the same for the shadow
     popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
 });
+
+window.plugin.highlightPortal.warnIconG = L.icon({
+    iconUrl: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAJPAAACTwH3kTiQAAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAAVNJREFUeNq91k9OwkAYBfBHPAEa924JGw7AgpO407VbE5bqRkHwFK68iB5CF2raFKOJEf/EPOezgoGUznR4kOZbNJnpL9N+fTMAiQVVA78PwcdLfb3uogS22gGfR2CXYEdUB/zFPfAfnj6AbTdBcXWCYTFeDRbi1WERHgdPGu4FbKwbTs7AKwdvrBNOesuhUbACrQwnfQ1aCVaiwXB6rkWD4HSgR73wqtBSOBOhNr8RCmdDHWrPsYRr+2A1aglXlO0zcHYhRnuLN5Yp/HUMjj7A1irQAvx/xVvg5767uQHvnsCTN7AZi/b9W2q3sKs3wfEeeH8N3rqz1tEY3Fagc2e48uSqg++nOe5DLeGq7Ofu9OoZVM9XXooOIg4TtYBB9tqbSjQv/yD75tZw82gWj4bB1nDW7TPocCk0EEb+q7V0aDhs/7mFjCWcAA2HLWQs4USoqx+IH1smzWT38QAAAABJRU5ErkJggg==',
+    shadowUrl: null,
+
+    iconSize:     [30, 30], // size of the icon
+    shadowSize:   [0, 0], // size of the shadow
+    iconAnchor:   [33, -2], // point of the icon which will correspond to marker's location
+    shadowAnchor: [0, 0],  // the same for the shadow
+    popupAnchor:  [0, 0] // point from which the popup should open relative to the iconAnchor
+});
+    
+
 
 window.plugin.highlightPortal.warnMarkerList = {};
 
@@ -43,16 +56,21 @@ window.plugin.highlightPortal.portalAdded = function(data) {
                   window.HIGHLIGHT_PORTAL_SHOW_ENLIGHTENED && d.team === 2;
 
   if(teamMatch && d.level >= window.HIGHLIGHT_PORTAL_LEVEL) {
-  	// Wenn für das Portal bereits ein Marker existiert, dann brauchen wir nichts weiter zu tun.
-  	if(window.plugin.highlightPortal.warnMarkerList[d.guid]) {
-  	  return;
-  	}
-  	
+    // Wenn für das Portal bereits ein Marker existiert, dann brauchen wir nichts weiter zu tun.
+    if(window.plugin.highlightPortal.warnMarkerList[d.guid]) {
+      return;
+    }
+    
     // Marker erzeugen, zur Karte hinzufügen und im Portalobjekt speichern.
-  	var warnmarker = L.marker(data.portal._latlng,{icon: window.plugin.highlightPortal.warnIcon});
-  	warnmarker.addTo(layer);
-  	window.plugin.highlightPortal.warnMarkerList[d.guid] = warnmarker;
-  	
+    if(d.team === 1){
+        var warnmarker = L.marker(data.portal._latlng,{icon: window.plugin.highlightPortal.warnIconR});
+    }
+    if(d.team === 2){
+        var warnmarker = L.marker(data.portal._latlng,{icon: window.plugin.highlightPortal.warnIconG});
+    }
+    warnmarker.addTo(layer);
+    window.plugin.highlightPortal.warnMarkerList[d.guid] = warnmarker;
+    
   } else {
     // Falls ein Marker vorhanden ist, entfernen
     if(window.plugin.highlightPortal.warnMarkerList[d.guid]) {

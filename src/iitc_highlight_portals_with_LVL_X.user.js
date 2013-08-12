@@ -1,7 +1,7 @@
 // ==UserScript==
 // @id             iitc-plugin-highlight-portals-with-LVL-X@smilix
 // @name           iitc: highlight portals with LVL > X
-// @version        1.3.0
+// @version        1.3.1
 // @namespace      https://github.com/jonatkins/ingress-intel-total-conversion
 // @updateURL      https://github.com/smilix/iitc-highlight-portal/raw/master/src/iitc_highlight_portals_with_LVL_X.user.js
 // @downloadURL    https://github.com/smilix/iitc-highlight-portal/raw/master/src/iitc_highlight_portals_with_LVL_X.user.js
